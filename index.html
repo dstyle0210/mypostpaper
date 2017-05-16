@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.6/vue.min.js"></script>
+</head>
+<body>
+<style>
+    *{margin:0;padding:0;list-style:none;}
+   .thumb img{width:150px;height:150px;}
+    #sneaker article{float:left;padding:10px;width:150px;height:300px;}
+   #sneaker article h2{font-size:13px;}
+    #sneaker article p.price{font-size:12px;}
+</style>
+<div id="sneaker">
+    <article v-for="item in json">
+        <a :href="'http://shop.adidas.co.kr/PF020401.action?PROD_CD='+item.style" target="_blank">
+            <div class="thumb"><img :src="item.src" onerror="$(this).parent().parent().parent().hide()" /></div>
+            <h2>{{item.name}}</h2>
+            <p class="price">{{item.price}}원</p>
+        </a>
+    </article>
+</div>
+<script>
+$(function(){
+    $.ajax({
+        url: "adidas.json",
+        cache: false,
+        dataType:"json"
+    }).done(function (json) {
+        var VUE = new Vue({
+            el: '#sneaker',
+            ready:function(){
+                console.log("ready");
+            },
+            data: {
+                json: json // _.shuffle(sneakers)
+            }
+        });
+    });
+});
+</script>
+</body>
+</html>
